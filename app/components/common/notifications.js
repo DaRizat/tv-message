@@ -2,20 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-class Notifications extends Component {
-
-    render() {
-        return (
+const Notifications = ({ errors, success }) => {
+    return (
         <div>
-            { this.props.errors.length > 0 &&
-                <p className='alert alert-danger'>{this.props.errors.join(', ')}</p>
+            { errors.length > 0 &&
+                <p className='alert alert-danger'>{errors.join(', ')}</p>
             }
-            { this.props.success.length > 0 &&
-                <p className='alert alert-success'>{this.props.success.join(', ')}</p>
+            { success.length > 0 &&
+                <p className='alert alert-success'>{success.join(', ')}</p>
             }
         </div>
-        );
-    }
+    );
 }
 
 Notifications.propTypes = {

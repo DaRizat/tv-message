@@ -46,11 +46,8 @@ default:
     serviceHost = 'services.development.goodwaygroup.com';
 }
 
-const pixelId = window.location.pathname.split('/')[2];
-const jobId = query.jobId;
-const advertiserId = query.advertiserId;
-const store = newStore({ config: { env, serviceHost, pixelId, jobId, advertiserId } });
-const baseRoute = '/pixels';
+const store = newStore({ config: { env, serviceHost } });
+const baseRoute = '';
 
 render(
   <Provider store={store}>
