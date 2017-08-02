@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const Loading = ({ loading }) => {
-    return (
+const Loading = ({ loading }) => (
         <div>
             { loading &&
                 <div className="modal">
@@ -14,7 +13,6 @@ const Loading = ({ loading }) => {
             }
         </div>
     );
-}
 
 Loading.propTypes = {
     loading: PropTypes.any

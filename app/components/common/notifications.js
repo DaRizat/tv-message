@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const Notifications = ({ errors, success }) => {
-    return (
+const Notifications = ({ errors, success }) => (
         <div>
             { errors.length > 0 &&
                 <p className='alert alert-danger'>{errors.join(', ')}</p>
@@ -13,7 +12,6 @@ const Notifications = ({ errors, success }) => {
             }
         </div>
     );
-}
 
 Notifications.propTypes = {
     errors: PropTypes.array,

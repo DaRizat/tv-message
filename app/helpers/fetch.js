@@ -3,8 +3,9 @@ import 'whatwg-fetch';
 
 const apiFetch = async (endpoint, options) => {
     const response = await fetch(endpoint, options);
+    const body = await response.json();
 
-    if(response.status >= 400 && response.status < 600 ) {
+    if (response.status >= 400 && response.status < 600) {
         const error = await response.text();
         throw new Error(error);
     }

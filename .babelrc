@@ -1,8 +1,14 @@
 {
     presets: [[ "es2015", { modules: false }],
                 "stage-2",
-                "react"
+                "react",
+                "goodway"
               ],
 
-    plugins: [ "react-hot-loader/babel", "transform-decorators-legacy" ]
+    plugins: [ "react-hot-loader/babel", "transform-decorators-legacy" ],
+    "env": {
+        "test": {
+            "plugins": ["istanbul"]
+        }
+    }
 }
