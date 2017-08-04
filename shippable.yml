@@ -12,10 +12,13 @@ script:
 
 build:
   ci:
+    - npm install -g yarn
+    - yarn install
+    - ./node_modules/.bin/webpack -p --config webpack.prod.config.js
     - docker build -t goodwaygroup/${REPO_NAME}:${BRANCH//\//-}.${BUILD_NUMBER} -f Dockerfile .
     - |
       if [[ $BRANCH == release/* ]] || [[ $BRANCH == hotfix/* ]] && ! $IS_PULL_REQUEST
-        then echo "versionName=${BRANCH//\//-}.$BUILD_NUMBER" >> $JOB_STATE/react-ui-template-image-staging.env 
+        then echo "versionName=${BRANCH//\//-}.$BUILD_NUMBER" >> $JOB_STATE/react-ui-template-image-staging.env
       fi
   post_ci:
     - docker push goodwaygroup/${REPO_NAME}:${BRANCH//\//-}.${BUILD_NUMBER}
