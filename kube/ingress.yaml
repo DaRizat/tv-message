@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: react-ui-template
+  namespace: react-ui-template
+  annotations:
+    kubernetes.io/ingress.class: external
+spec:
+  tls:
+  - hosts:
+    - ui.staging.goodwaygroup.com
+    secretName: goodwaygroup-staging
+  - hosts:
+    - ui.goodwaygroup.com
+    secretName: goodwaygroup-production
+  rules:
+  - host: ui.staging.goodwaygroup.com
+    http:
+      paths:
+      - backend:
+          serviceName: react-ui-template-staging
+          servicePort: 80
+        path: /react-ui-template
+  - host: ui.goodwaygroup.com
+    http:
+      paths:
+      - backend:
+          serviceName: react-ui-template-production
+          servicePort: 80
+        path: /react-ui-template

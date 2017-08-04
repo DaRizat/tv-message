@@ -1,0 +1,94 @@
+resources:
+  - name: react-ui-template-repo
+    type: gitRepo
+    integration: github
+    pointer:
+      sourceName: "goodwaygroup/react-ui-template"
+      buildOnTagPush: true
+      buildOnCommit: false
+      tags:
+        only:
+          - "v1.*"
+    flags:
+      - react-ui-template
+      
+  - name: react-ui-template-image-staging
+    type: image
+    integration: docker-hub
+    pointer:
+      sourceName: "goodwaygroup/react-ui-template"
+    seed:
+      versionName: "latest"
+    flags:
+      - react-ui-template
+
+  - name: react-ui-template-image-prod
+    type: image
+    integration: docker-hub
+    pointer:
+      sourceName: "goodwaygroup/react-ui-template"
+    seed:
+      versionName: "latest"
+    flags:
+      - react-ui-template
+
+  - name: react-ui-template-docker-options-prod-deploy
+    type: dockerOptions
+    version:
+      volumes:
+        - "productionenv:/etc/secrets:ro"
+      labels:
+        "app": "react-ui-template-Prod"
+      cpuShares: 100
+      deployment:
+        replicas: 2
+      pod:
+        volumes:
+          - name: "productionenv"
+            secret: 
+              secretName: "production.env"
+        imagePullSecrets:
+          - name: dockerhub
+    flags:
+      - Golive
+
+  - name: react-ui-template-docker-options-staging-deploy
+    type: dockerOptions
+    version:
+      volumes:
+        - "stagingenv:/etc/secrets:ro"
+      labels:
+        "app": "react-ui-template-Staging"
+      cpuShares: 100
+      deployment:
+        replicas: 2
+      pod:
+        volumes:
+          - name: "stagingenv"
+            secret: 
+              secretName: "staging.env"
+        imagePullSecrets:
+          - name: dockerhub
+    flags:
+      - react-ui-template
+
+  - name: react-ui-template-tagrelease-cliconfig
+    type: cliConfig
+    integration: docker-hub
+    flags:
+      - react-ui-template
+  
+  - name: react-ui-template-kube-cliconfig
+    type: cliConfig
+    integration: kube
+    flags:
+      - react-ui-template
+
+  - name: react-ui-template-kube-cluster
+    type: cluster
+    integration: kube
+    pointer:
+      sourceName: us-east-1.gwdocker.com
+      namespace: react-ui-template
+    flags:
+      - react-ui-template

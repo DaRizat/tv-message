@@ -1,0 +1,140 @@
+jobs:
+  - name: react-ui-template_runCI
+    type: runCI
+    steps:
+      - OUT: react-ui-template-image-staging
+    flags:
+      - react-ui-template
+
+  - name: react-ui-template-manifest-staging
+    type: manifest
+    steps:
+      - IN: react-ui-template-image-staging
+    flags:
+      - react-ui-template
+
+  - name: react-ui-template-manifest-prod
+    type: manifest
+    steps:
+      - IN: react-ui-template-image-prod
+    flags:
+      - react-ui-template
+
+  - name: react-ui-template-staging
+    type: deploy
+    steps:
+      - IN: react-ui-template-manifest-staging
+        switch: off
+      - IN: react-ui-template-prepare-staging
+      - IN: react-ui-template-docker-options-staging-deploy
+      - IN: react-ui-template-kube-cluster
+      - TASK: managed
+        deploymentMethod: blueGreen
+    flags:
+      - react-ui-template
+
+  - name: react-ui-template-prod
+    type: deploy
+    steps:
+      - IN: react-ui-template-manifest-prod
+        switch: off
+      - IN: react-ui-template-prepare-production
+      - IN: react-ui-template-docker-options-prod-deploy
+      - IN: react-ui-template-kube-cluster
+      - TASK: managed
+        deploymentMethod: blueGreen
+    flags:
+      - react-ui-template
+
+  - name: react-ui-template-tagRelease
+    type: runCLI
+    steps:
+      - IN: react-ui-template-repo
+      - IN: react-ui-template-tagrelease-cliconfig
+      - IN: react-ui-template-manifest-staging
+        switch: off
+      - OUT: react-ui-template-image-prod
+      - TASK:
+        - script: |
+            MANIFEST=$(export | grep '.*\ .*=\"manifest\"' | awk '{print $3;}' | sed 's/\(.*\)_TYPE=.*/\1/')
+            VARNAME=${MANIFEST}_STATE
+            IMAGE=goodwaygroup/react-ui-template:$(jq -r '.[] | .images[] | select(.image | contains ("goodwaygroup/react-ui-template")).tag' ${!VARNAME}/manifests.json)
+            docker pull $IMAGE
+            REPO=$(export | grep '.*\ .*=\"gitRepo\"' | awk '{print $3;}' | sed 's/\(.*\)_TYPE=.*/\1/')
+            TAG_VAR=${REPO}_GIT_TAG_NAME
+            docker tag -f $IMAGE goodwaygroup/react-ui-template:${!TAG_VAR}
+            docker push goodwaygroup/react-ui-template:${!TAG_VAR}
+            echo "versionName=${!TAG_VAR}" >> $JOB_STATE/react-ui-template-image-prod.env
+    flags:
+      - react-ui-template
+
+  - name: react-ui-template-autoscale-staging
+    type: runCLI
+    steps:
+      - IN: react-ui-template-kube-cliconfig
+      - IN: react-ui-template-staging
+      - TASK:
+        - script: |
+            HPAS=$(kubectl get hpa --namespace react-ui-template -o json | jq -r '.items[] | select(.metadata.name | contains("react-ui-template-staging-")) | .metadata.name')
+            if [[ ${#HPAS} > 0 ]]; then kubectl delete hpa ${HPAS} --namespace react-ui-template ; fi
+            kubectl autoscale deployment \
+            $(kubectl get deployments --namespace react-ui-template -o json | jq -r '.items[] | select(.metadata.labels.app=="react-ui-template-Staging") | .metadata.name') \
+            --namespace react-ui-template \
+            --cpu-percent 50 \
+            --min 2 \
+            --max 30
+    flags:
+      - react-ui-template
+
+  - name: react-ui-template-autoscale-prod
+    type: runCLI
+    steps:
+      - IN: react-ui-template-kube-cliconfig
+      - IN: react-ui-template-prod
+      - TASK:
+        - script: |
+            HPAS=$(kubectl get hpa --namespace react-ui-template -o json | jq -r '.items[] | select(.metadata.name | contains("react-ui-template-prod-")) | .metadata.name')
+            if [[ ${#HPAS} > 0 ]]; then kubectl delete hpa ${HPAS} --namespace react-ui-template ; fi
+            kubectl autoscale deployment \
+            $(kubectl get deployments --namespace react-ui-template -o json | jq -r '.items[] | select(.metadata.labels.app=="react-ui-template-Prod") | .metadata.name') \
+            --namespace react-ui-template \
+            --cpu-percent 50 \
+            --min 2 \
+            --max 30
+    flags:
+      - react-ui-template
+
+  - name: react-ui-template-prepare-staging
+    type: runCLI
+    steps:
+      - IN: react-ui-template-kube-cliconfig
+      - IN: react-ui-template-manifest-staging
+      - TASK:
+        - script: |
+            STAGING_SECRET=$(kubectl get secrets --namespace react-ui-template -o json | jq -r '.items[].metadata.name | select(.=="staging.env")')
+            if [[ $STAGING_SECRET != "staging.env" ]];
+            then
+              kubectl create secret generic staging.env --namespace react-ui-template
+            fi;
+            DOCKER_HUB=$(kubectl get secrets --namespace react-ui-template -o json | jq -r '.items[].metadata.name | select(.=="dockerhub")')
+            if [[ $DOCKER_HUB != "dockerhub" ]];
+            then
+              kubectl get secret dockerhub --namespace default -o yaml | sed 's/namespace: default/namespace: react-ui-template/' | kubectl create --namespace react-ui-template -f -
+            fi;
+    flags:
+      - react-ui-template
+
+  - name: react-ui-template-prepare-production
+    type: runCLI
+    steps:
+      - IN: react-ui-template-kube-cliconfig
+      - IN: react-ui-template-manifest-prod
+      - TASK:
+        - script: |
+            PROD_SECRET=$(kubectl get secrets --namespace react-ui-template -o json | jq -r '.items[].metadata.name | select(.=="production.env")')
+            if [[ $PROD_SECRET != "production.env" ]];
+            then
+              kubectl create secret generic production.env --namespace react-ui-template
+            fi;
+    flags:
+      - react-ui-template

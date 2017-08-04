@@ -1,0 +1,32 @@
+language: node_js
+
+node_js:
+  - 4.4.0
+
+env:
+  global:
+
+install:
+
+script:
+
+build:
+  ci:
+    - docker build -t goodwaygroup/${REPO_NAME}:${BRANCH//\//-}.${BUILD_NUMBER} -f Dockerfile .
+    - |
+      if [[ $BRANCH == release/* ]] || [[ $BRANCH == hotfix/* ]] && ! $IS_PULL_REQUEST
+        then echo "versionName=${BRANCH//\//-}.$BUILD_NUMBER" >> $JOB_STATE/react-ui-template-image-staging.env 
+      fi
+  post_ci:
+    - docker push goodwaygroup/${REPO_NAME}:${BRANCH//\//-}.${BUILD_NUMBER}
+
+integrations:
+  hub:
+    - integrationName: docker-hub
+      type: docker
+
+branches:
+  only:
+    - master
+    - release/*
+    - hotfix/*
