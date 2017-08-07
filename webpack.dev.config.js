@@ -5,7 +5,7 @@ const webpack = require('webpack');
 module.exports = {
     entry: [
         'react-hot-loader/patch',
-        'webpack-dev-server/client?http://localhost:3000',
+        'webpack-dev-server/client?http://localhost:3001',
         'webpack/hot/only-dev-server',
         'babel-polyfill',
         'whatwg-fetch',
@@ -41,7 +41,8 @@ module.exports = {
 
     devServer: {
         host: 'localhost',
-        port: 3000,
+        port: 3001,
+        publicPath: '/react-ui-template',
         historyApiFallback: true,
         hot: true,
     }

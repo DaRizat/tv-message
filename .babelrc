@@ -5,10 +5,13 @@
                 "goodway"
               ],
 
-    plugins: [ "react-hot-loader/babel", "transform-decorators-legacy" ],
+    plugins: [ "transform-decorators-legacy" ],
     "env": {
         "test": {
             "plugins": ["istanbul"]
+        },
+        "development": {
+            plugins: [ "react-hot-loader/babel" ]
         }
     }
 }

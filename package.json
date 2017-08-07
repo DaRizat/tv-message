@@ -22,8 +22,10 @@
     "babel-preset-stage-2": "^6.24.1",
     "bind-decorator": "^1.0.10",
     "bluebird": "^3.5.0",
+    "cookie": "^0.3.1",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.4",
+    "deepmerge": "^1.5.0",
     "dot-prop-immutable": "^1.3.1",
     "eslint": "^3.19.0",
     "eslint-config-goodway": "^1.2.0",
@@ -34,7 +36,7 @@
     "prop-types": "^15.5.10",
     "query-string": "^4.3.4",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4",
+    "react-dom": "^15.6.1",
     "react-hot-loader": "next",
     "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
@@ -46,11 +48,10 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "webpack": "^2.6.0",
-    "webpack-dev-server": "^2.4.5",
-    "webpack-hot-middleware": "^2.18.0",
     "webpack-node-externals": "^1.6.0",
     "whatwg-fetch": "^2.0.3"
   },
+  "pre-push": ["lint:fix", "test"],
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
@@ -67,9 +68,11 @@
     "nock": "^9.0.14",
     "nyc": "^11.1.0",
     "pact": "^2.6.0",
-    "react-dom": "^15.6.1",
+    "pre-push": "^0.1.1",
     "react-test-renderer": "^15.6.1",
-    "sinon": "^2.4.1"
+    "sinon": "^2.4.1",
+    "webpack-dev-server": "^2.4.5",
+    "webpack-hot-middleware": "^2.18.0"
   },
   "nyc": {
     "include": [

@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import createHistory from 'history/createBrowserHistory';
 import { Route } from 'react-router';
 import { ConnectedRouter, push } from 'react-router-redux';
-import queryString from 'query-string';
 
 import Home from './components/home';
 import Header from './components/common/header';
@@ -15,39 +14,9 @@ import { newStore, history } from './store';
 
 require('./styles/index.scss');
 
-const query = queryString.parse(window.location.search);
 const rootElement = document.getElementById('root');
-const hostName = window.location.host;
-
-let env = '';
-let match = hostName.match(/ui\.goodwaygroup\.com/);
-
-if(match) {
-    env = 'production';
-} else {
-    match = hostName.match(/(development|staging)/);
-    if(match) {
-        env = match[0];
-    } else {
-        env = query.env || "development";
-    }
-}
-
-let serviceHost = '';
-
-switch (env) {
-case 'production':
-    serviceHost = 'services.goodwaygroup.com';
-    break;
-case 'staging':
-    serviceHost = 'services.staging.goodwaygroup.com';
-    break;
-default:
-    serviceHost = 'services.development.goodwaygroup.com';
-}
-
-const store = newStore({ config: { env, serviceHost } });
-const baseRoute = '';
+const store = newStore();
+const baseRoute = 'react-ui-template';
 
 render(
   <Provider store={store}>
@@ -56,7 +25,7 @@ render(
         <Header />
         <Loading />
         <Notifications />
-        <Route exact path="/" component={Home} />
+        <Route path={`/${baseRoute}`} component={Home} />
       </div>
     </ConnectedRouter>
   </Provider>,
