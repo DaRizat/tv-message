@@ -1,2 +1,6 @@
 const helloWorldEndpoint = state => (`${state.config.serviceHost}/lambda-service-template/helloworld`);
-export default helloWorldEndpoint;
+const engineersOnlyEndpoint = state => (`${state.config.serviceHost}/lambda-service-template/engineersonly`);
+export default {
+	helloWorldEndpoint,
+	engineersOnlyEndpoint
+};

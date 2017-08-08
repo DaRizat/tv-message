@@ -12,6 +12,11 @@ const Home = ({ dispatch }) => (
           onClick={() => { dispatch(buildAction(AUTH.HELLO_WORLD)); }}>
           Are You Authorized?
         </button>
+        <button
+          className="btn btn-ptimary btn-lg"
+          onClick={() => { dispatch(buildAction(AUTH.ENGINEERS_ONLY)); }}>
+          Engineers Only
+        </button>
       </div>
     </div>
 );
