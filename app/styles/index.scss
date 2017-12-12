@@ -1,76 +1,29 @@
-.text-area {
-  margin: 50px 0;
-  width: 700px;
-  display: block;
+body {
+    background-color: white;
+    // background-image: url('');
 }
 
-.submit.pull-left {
-  float: left;
-  margin-left: 0;
+.the-big-container {
+    padding-left: 50px;
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
-.submit {
-  margin-left: 0;
-  margin-top: 5px;
+.the-big-one {
+    position: relative;
+    font-family: 'Kanit';
+    letter-spacing: 5px;
+    line-height: 170pt;
+    font-size: 150pt;
+    color: blue;
+    -webkit-text-stroke: 2px red;
+    top: 15%;
 }
 
-.cancel {
-  padding-top: 5px;
-  margin-left: 650px;
+.the-big-edit {
+    width: 50%;
+    height: 400px;
 }
 
-.text-success {
-  color: limegreen;
-}
-
-.row {
-  padding-left: 20px;
-}
-
-a {
-  cursor: pointer;
-}
-
-.brand {
-  position: relative;
-}
-
-a.btn {
-  margin-top: 10px;
-  margin-right: 15px;
-}
-
-table {
-  margin-top: 20px;
-}
-
-.modal {
-  display: block !important;
-  top: 0;
-}
-
-svg {
-  position: absolute;
-  top: 45%;
-  left: 45%;
-}
-
-.url-entry {
-  font-family: 'Helvetica';
-  font-size: 12pt;
-}
-
-.main {
-  padding: 20px 50px;
-}
-
-.ad-form .submit {
-  margin-left: 15px;
-  font-weight: bold;
-  border-radius: 5px;
-  font-size: 11pt;
-}
-
-select {
-  font-family: 'Helvetica', 'Arial', sans-serif;
-}

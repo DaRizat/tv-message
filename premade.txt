@@ -1,0 +1,55 @@
+## Kale/Jack 1x1
+--------------------
+background-image: url('http://www.iconarchive.com/download/i66644/designbolts/free-valentine-heart/Heart-Shadow.ico');
+background-repeat: tile;
+
+top: 25%
+
+markup:
+<img src='https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/15826500_1521829357831745_8651126206219404645_n.jpg?oh=c02bb9f2d32764b0090ac1fccd501a4e&oe=5A1EB908' width='300' height='400' style='display: inline'></img><img src='https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/463494_10150778321964108_16396912_o.jpg?oh=969bd6af590842e38a4b16a44e758101&oe=5A13A28E' width='600' height='400' style='display: inline'></img>
+--------------------
+
+## BPA standup
+
+---------------------
+STANDUP
+TO GET
+DOWN
+
+size: 200pt
+---------------------
+
+## Microservices
+
+---------------------
+bkg: white
+text: black
+size: 200
+
+markup:
+<img src='https://thecliparts.com/wp-content/uploads/2016/07/check-clipart.png' height='300' width='300' style='margin-top: -20px'></img>2H GOAL
+---------------------
+
+---------------------
+bkg: darkblue
+text: gold
+stroke: white
+size: 160
+
+markup:
+MAY ALL OUR
+SERVICES BE
+<span style='font-size: 72pt; -webkit-text-stroke: 2px white'>MICRO</span>
+---------------------
+
+## Engineering weekly
+
+Engine + ear + s
+----------------------
+<img src='https://i.imgur.com/8i5ollB.png' width="300"></img><span style="font-size: 200pt">+</span><img src='https://www.iconexperience.com/_img/g_collection_png/standard/512x512/ear.png' width="300"></img><span style="font-size: 200pt">+ S</span>
+----------------------
+
+N + gin + ears
+----------------------
+<span style="font-size: 200pt">N +</span><img src='http://www.seriouseats.com/images/2015/03/20150324-martini-gin-test-bombay-sapphire-dry-gin-vicky-wasik--11.jpg' width="300"></img><span style="font-size: 200pt">+</span><img src='https://wonderopolis.org/wp-content/uploads/2010/11/Wonder-37-Corn-Static-Image.jpg' width="300">
+----------------------
